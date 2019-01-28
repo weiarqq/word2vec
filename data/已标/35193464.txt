@@ -1,0 +1,355 @@
+﻿中标 信息
+招标 项目 名称 ： 创源 金属 4/5/6 #机 阀碟 、 阀座 、 套筒 、 盖 等 招标
+招标 项目 编号 ： 8300 YQ 20177178
+采购 单位 ： 东方 电气 集团 东方 汽轮机 有限 公司 物资 保障部
+招标人 ： [东方 电气 集团 东方 汽轮机 有限 公司 集中 招标 中心]te
+中标 供应商 ： 江油 市长 祥特 殊钢 制造 有限 公司
+附件
+附件 ： window.up_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_download _ path = ' / at m _ download . svc' ;
+
+functionup_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F 7 ( ){
+
+varjsid = Aurora.get Cookie (' JS ID ') ;
+
+varsettings ={
+
+upload_url ： ' /atm_upload . svc;jsessionid = ? JS ID = ' + jsid ,
+
+flash_url ： " / resource/aurora.ui . std/default/upload / swfupload.swf "
+
+};
+
+Ext.apply(settings , {
+
+button _ place holder _ id ： " u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F 7 " ,
+
+post _ params ： { " source_type " ： " blt _ tplt _ bulletin _ list " , " pkvalue " ： " 38475 " , " JSID " ： jsid || ' ' } ,
+
+button _ wid th ： " 100 " ,
+
+button_height ： " 23 " ,
+
+debug ： false ,
+
+button _ window _ mode ： SW FUpload . WIND OW _ MODE.TRAN SPA RENT ,
+
+button _ image_url ： " / resource/aurora.ui . std/default/upload/s.gif " ,
+
+button_curs or ： SW FUpload . CURS OR . HAND ,
+
+button _ text ： ' <a >< /a>' ,
+
+button _ text _ style ： " . the Font{text - decoration ： underline;curs or ： hand ; font - family ： 宋体 ; font - size ： 13 px ; text-align ： center ; } " ,
+
+button _ text _ top _ padding ： 2 ,
+
+file_size_limit ： 0 ,// 默认 单位 是 KB,0 表示 无 限制
+
+file_types ： ' *.* ' ,
+
+file _ queued _ handler ： function ( file ){
+
+vartotal FileSize=0 ;
+
+vards = $('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') ;
+
+if (total FileSize ! = 0 ) {
+
+varall=ds.getAll () , uploaded Size=0 ;
+
+for (vari=0 ; i< all.length;i + + ){
+
+uploaded Size=uploaded Size +all [i].get ( ' file_size ') ;
+
+}
+
+if ((uploaded Size + file.size ) > = 1024 * to tal FileSize ){
+
+this . cancelUpload ( file.id ) ;
+
+Aurora.showError Message (' 错误 ' , ' 超出 总上 传 文件 大 小 限制 !( 不 能 超过 ' + window . format FileSize( 1024 * to tal FileSize) + ' )' , null,350 , 100 ) ;
+
+return ;
+
+}
+
+}
+
+vartotal Count=0 ;
+
+vards = $('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') ;
+
+if (total Count ! = 0 ) {
+
+if (ds.getAll ().length> = total Count ){
+
+this . cancelUpload ( file.id ) ;
+
+$A.showError Message (' 错误 ' , ' 上 传 文件 数量 超出 限制 !( 总 数量 不 能 超过 ' + to talCount + ' 个 )' , null,350 , 100 ) ;
+
+return ;
+
+}
+
+}
+
+varrecord=newAurora . Record ({
+
+file _ id ： file.id ,
+
+file_name ： file.name ,
+
+file_size ： file.size ,
+
+table_name ： " blt _ tplt _ bulletin _ list " ,
+
+table _ pk _ value ： " 38475 " ,
+
+percent ： 0
+
+}) ;
+
+$('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') .add (record,0 )
+
+} ,
+
+upload _ success _ handler ： function ( file,serverData , response Rece ived ){
+
+varres= Ext.decode(serverData) ;
+
+varrecord = $('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') . find ( ' file_id ' , file.id ) ;
+
+if ( !isNaN (res) ){
+
+if (record ){
+
+if (serverData ! = ' ' )record.set( 'at tachment _ id ' , serverData) ;
+
+record.set( ' status',1 ) ;
+
+record.set ( ' creation _ time',newDate( ))
+
+record.com mit() ;
+
+}
+
+$('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F 7 ' ) . fire Event ( " upload " , this , " 38475 " , 'blt _ tplt _ bulletin _ list',serverData) ;
+
+}elseif( !res . success ){
+
+$A.showError Message (' 错误 ' , res.error . message ||res.error . stack Trace,null,400 , 200 ) ;
+
+record.ds.re move (record ) ;
+
+}else{
+
+$A.showError Message (' 错误 ' , ' 未 知 错误 ! ') ;
+
+record.ds.re move (record ) ;
+
+}
+
+
+
+
+
+} ,
+
+file _ queue_error _ handler ： function ( file , code,message ){
+
+try{
+
+varmsg;
+
+switch ( code ){
+
+caseSW FUpload . QUEUE_ERROR . QUEUE_LIM IT _ EXCEEDED ：
+
+msg=' 超出 上 传 文件 数量 限制 ' ;
+
+break ;
+
+caseSW FUpload . QUEUE_ERROR . FILE _ EXCEEDS _ SIZE_LIM IT ：
+
+msg=' 超出 上 传 文件 大 小 限制 !( 不 能 超过 ' + window . format FileSize( 1024 * window.up_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7.settings . file_size_limit) + ' )' ;
+
+break ;
+
+caseSW FUpload . QUEUE_ERROR . ZERO _ BYTE _ FILE ：
+
+msg=' 文件 不 能 为 空' ;
+
+break ;
+
+caseSW FUpload . QUEUE_ERROR . IN VALID _ FILETY PE ：
+
+msg=' 不 能 上 传此 文件 类型 !
+(仅 限于 ' + window.up_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7.settings . file_types + ' )' ;
+
+break ;
+
+default ：
+
+if ( file ! = =null ){
+
+alert( " Unhandled Error " );
+
+}
+
+break ;
+
+}
+
+if (msg){
+
+Aurora.showError Message (' 错误 ' , ms g) ;
+
+}
+
+} catch(e) {}
+
+} ,
+
+file _ dialog_complete _ handler ： function(num Files Selected,num FilesQueued ){
+
+try{
+
+this . start Upload () ;
+
+} catch(ex ){
+
+this . debug(e x) ;
+
+}
+
+} ,
+
+upload _ progress _ handler ： function ( file,bytes Loaded , bytesTotal ){
+
+try{
+
+varpercent= Math.ceil( (bytes Loaded / bytesTotal) * 100 ) ;
+
+varrecord = $('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') . find ( ' file_id ' , file.id ) ;
+
+if (record ){
+
+record.set( 'percent' , percent) ;
+
+}
+
+} catch(ex ){
+
+alert(e x)
+
+}
+
+} ,
+
+upload_error _ handler ： function ( file , code,message ){
+
+varmsg;
+
+switch ( code ){
+
+caseSW FUpload . UPLOAD_ERROR . HTTP _ ERROR ：
+
+switch(message ){
+
+case' 404 ' ：
+
+msg= " 上传 地址 不 正确 " ;
+
+break ;
+
+case' 500 ' ：
+
+msg= " 服务端 发生 错误 " ;
+
+break ;
+
+default ：
+
+msg= " 网络 连接 失败 " ;
+
+break ;
+
+}
+
+break ;
+
+caseSW FUpload . UPLOAD_ER ROR.MIS SING _ UPLOAD_URL ：
+
+msg= " 上传 地址 错误 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . IO_ERROR ：
+
+msg= " IO 错误 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . SECURITY _ ERROR ：
+
+msg= " 安全 错误 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . UPLOAD_LIM IT _ EXCEEDED ：
+
+msg= " 网络 连接 失败 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . UPLOAD _ FAILED ：
+
+msg= " 上传 失败 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . SPEC IFIED _ FILE _ ID _ NOT_ FOUND ：
+
+msg= " 文件 ID 没有 找到 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . FILE _ VALIDATION _ FAILED ：
+
+msg= " 文件 大 小 或 类型 出错 " ;
+
+break ;
+
+caseSW FUpload . UPLOAD_ERROR . UPLOAD_STOPPED ：
+
+msg= " 文件 停止 上 传" ;
+
+break ;
+
+}
+
+if (msg){
+
+Aurora.showError Message (' 错误 ' , ms g) ;
+
+varrecord = $('u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7_ds ') . find ( ' file_id ' , file.id ) ;
+
+if (record ){
+
+record.set( ' status',0 ) ;
+
+}
+
+}
+
+}
+
+}) ;
+
+window.up_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7=newSW FUpload(settings) ;
+
+}
+
+u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F7() ;
+
+newAurora.Uploader ({ " id " ： " u p_ 785C0 B1EF6FD4EB1A F171700 DF4E 99 F 7 " , " listeners " ： {} , " height " ： 20 , " clientresize " ： true , " wid th " ： 150 , "iscust " ： true }) ;
